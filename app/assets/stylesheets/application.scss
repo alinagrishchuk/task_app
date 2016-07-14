@@ -1,3 +1,4 @@
+@import 'normalize';
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
@@ -7,6 +8,9 @@ $light: #f7f9f9;
 $white: #FFFFFF;
 $highLight: #ff5252;
 
+* {
+  box-sizing: border-box;
+}
 
 /*********************************** typography */
 body {
