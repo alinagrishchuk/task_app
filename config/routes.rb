@@ -1,8 +1,15 @@
 Rails.application.routes.draw do
   get 'welcome/index'
-  root 'welcome#index'
 
   devise_for :users
+  resources :tasks,  :except => [:show]
+
+  authenticated :user do
+    root 'tasks#index', as: 'authenticated_root'
+  end
+
+  root 'welcome#index'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
