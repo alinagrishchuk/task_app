@@ -1,2 +1,60 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
+
+$black: rgba(0, 0, 0, 0.67);
+$dark: rgba(0,0,0,0.54);
+$light: #f7f9f9;
+$white: #FFFFFF;
+$highLight: #ff5252;
+
+
+/*********************************** typography */
+body {
+  color: $dark;
+  font-family: 'Work Sans', sans-serif;
+}
+
+/*********************************** header */
+
+.navbar {
+  .navbar-brand, .navbar-nav > li > a {
+    font-family: 'Hammersmith One', sans-serif;
+    &:hover {
+      color: $highLight;
+    }
+  }
+}
+
+/*********************************** authorization */
+.authorization {
+
+  /************* tabs */
+  #myTabs{
+    margin-bottom: 4rem;
+  }
+
+  .nav-tabs > li {
+    &.active > a {
+      color: $highLight;
+    }
+    a {
+      color: $dark;
+      text-transform: uppercase;
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+  }
+
+  /************* submit btn */
+  .btn {
+    color: #ff5252;
+    background-color: transparent;
+    width: 100%;
+    text-transform: uppercase;
+    font-weight: bolder;
+    letter-spacing: 2px;
+    &:hover {
+      background-color: $light;
+    }
+  }
+}

@@ -1,11 +1,29 @@
-<h1>Welcome to simple task application</h1>
-<div class="row">
-  <div class="col-sm-6">
-    <%= render template: "devise/registrations/new" %>
+<h1>Welcome to simple task application!</h1>
+<br/>
+<section class="authorization">
+  <ul id="myTabs" class="nav nav-tabs nav-justified" role="tablist">
+    <li role="presentation" class="">
+      <a href="#sign-up-tab" role="tab" data-toggle="tab" aria-controls="sign-up" aria-expanded="false">Sign up</a>
+    </li>
+    <li role="presentation" class="active">
+      <a href="#sign-in" role="tab" data-toggle="tab" aria-controls="sign-in" aria-expanded="true">Log in</a>
+    </li>
+  </ul>
+
+  <div id="myTabContent" class="tab-content">
+    <div role="tabpanel" class="tab-pane fade" id="sign-up-tab" aria-labelledby="sign-up-tab">
+      <div class="col-sm-6 col-sm-offset-3">
+        <%= render template: "devise/registrations/new" %>
+      </div>
+    </div>
+    <div role="tabpanel" class="tab-pane fade active in" id="sign-in" aria-labelledby="sign-in-tab">
+      <div class="col-sm-6 col-sm-offset-3 ">
+        <%= render template: "devise/sessions/new" %>
+      </div>
+    </div>
   </div>
-  <div class="col-sm-6 pull-right">
-    <%= render template: "devise/sessions/new" %>
-  </div>
-</div>
+</section>
+
+
 
 
