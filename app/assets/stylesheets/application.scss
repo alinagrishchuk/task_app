@@ -18,11 +18,34 @@ body {
   font-family: 'Work Sans', sans-serif;
 }
 
+@mixin upper-text {
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+a {
+  color: $highLight;
+
+  &:hover {
+    text-decoration: none;
+    color: $highLight;
+  }
+
+  &.main-link {
+    @include upper-text;
+    &:hover {
+      color: darken($highLight, 10%);
+    }
+  }
+}
+
 /*********************************** header */
 
 .navbar {
   .navbar-brand, .navbar-nav > li > a {
     font-family: 'Hammersmith One', sans-serif;
+    @include upper-text;
     &:hover {
       color: $highLight;
     }
@@ -43,9 +66,7 @@ body {
     }
     a {
       color: $dark;
-      text-transform: uppercase;
-      font-weight: bold;
-      letter-spacing: 2px;
+      @include upper-text;
     }
   }
 
@@ -62,3 +83,5 @@ body {
     }
   }
 }
+
+@import "tasks";

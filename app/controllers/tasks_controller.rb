@@ -4,10 +4,14 @@ class TasksController < ApplicationController
   respond_to :js
 
   def index
-    @tasks = Task.all
+    @tasks = Task.all.includes(:users)
     respond_to do |format|
       format.html {}
     end
+  end
+
+  def new
+    @task = Task.new
   end
 
   def create

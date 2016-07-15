@@ -1,0 +1,58 @@
+<div id="<%= "task_#{task.id}" %>" class='task panel panel-default'>
+
+  <!-- panel header -->
+  <div class="panel-heading">
+    <div class="pull-right links">
+      <%= link_to edit_task_path(task), remote: true do %>
+          <span class="glyphicon glyphicon-pencil"></span>
+      <% end %>
+      <%= link_to(task, method: :delete, data: { confirm: 'Are you sure?' }) do %>
+          <span class="glyphicon glyphicon-remove"></span>
+      <% end %>
+    </div>
+    <strong>Task#<%= "#{task.id}" %></strong>
+  </div>
+
+  <div class="panel-body">
+
+    <!-- task base information -->
+    <div class="row  js-task-edit">
+      <div class="col-sm-1">
+        <label>Title</label>
+      </div>
+      <div class="col-sm-3">
+        <span><%= task.title %></span>
+      </div>
+      <div class="col-sm-2">
+        <label>Description</label>
+      </div>
+      <div class="col-sm-6">
+        <span><%= task.description %></span>
+      </div>
+    </div>
+
+    <!-- share task -->
+    <div class="row">
+      <div class="col-sm-1">
+        <label>Shared</label>
+      </div>
+      <div class="col-sm-3">
+        <%= link_to(task, method: :delete, data: { confirm: 'Are you sure?' }) do %>
+            <span class="glyphicon glyphicon-plus"></span> share
+        <% end %>
+      </div>
+    </div>
+
+    <!-- task users -->
+    <div class="row">
+      <div class="col-sm-offset-1 col-sm-8">
+        <ul>
+          <% task.users.each do |user|%>
+            <li><%= user.email %></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>

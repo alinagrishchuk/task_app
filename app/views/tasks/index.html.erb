@@ -1,0 +1,14 @@
+<h1>Listing Tasks</h1>
+<div class="text-right">
+  <%= link_to new_task_path, remote: true, id:"new_link", class: "main-link" do %>
+      <span class='glyphicon glyphicon-plus'></span>
+      <strong>add task</strong>
+  <% end %>
+</div>
+
+
+<div class='js-container'>
+  <section class='tasks'>
+    <%= render @tasks  %>
+  </section>
+</div>
