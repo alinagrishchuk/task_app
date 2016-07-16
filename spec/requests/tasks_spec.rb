@@ -4,7 +4,6 @@ RSpec.describe 'Tasks', type: :request do
   subject { page }
   let!(:user) { create(:user_with_tasks, tasks_count: 2) }
 
-
   describe 'task creation' do
     let(:last_created_task) { Task.first }
     before do
@@ -83,5 +82,24 @@ RSpec.describe 'Tasks', type: :request do
         should_not have_selector(".task-form")
       end
     end
+  end
+
+  describe 'task deleting' do
+    let!(:first_created_task) { Task.last }
+    let!(:count) { Task.count }
+
+    before do
+      valid_signin(user)
+    end
+
+    it 'should delete a task and remove it from list', :js => true do
+      within "#task_#{first_created_task.id}"  do
+        find('.js-delete-task').click
+        sleep 1
+        expect(count).not_to eq(Task.count)
+      end
+      should_not have_selector("#task_#{first_created_task.id}")
+    end
+
   end
 end

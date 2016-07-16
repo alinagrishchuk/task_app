@@ -6,7 +6,7 @@
       <%= link_to edit_task_path(task), remote: true, class: 'js-edit-task' do %>
           <span class="glyphicon glyphicon-pencil"></span>
       <% end %>
-      <%= link_to task, method: :delete, data: { confirm: 'Are you sure?' }, class: 'js-delete-task' do %>
+      <%= link_to task, method: :delete, remote: true, class: 'js-delete-task' do %>
           <span class="glyphicon glyphicon-remove"></span>
       <% end %>
     </div>
