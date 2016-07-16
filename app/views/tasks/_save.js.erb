@@ -6,6 +6,7 @@ $("ul.errors").html("")
   <% end %>
 <% else %>
   $("#new_link").show();
+  $(".js-links-block a").removeClass("disabled-link");
   $(".task-form").remove();
   $('.tasks').prepend("<%=j render @task %>");
 <% end %>

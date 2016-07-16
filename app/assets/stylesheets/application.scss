@@ -40,6 +40,20 @@ a {
   }
 }
 
+.js-links-block {
+  a.disabled-link {
+    pointer-events: none;
+    -webkit-filter: opacity(40%);
+    filter: opacity(40%);
+  }
+
+  a.enabled-link {
+    pointer-events: auto;
+    -webkit-filter: opacity(100%);
+    filter: opacity(100%);
+  }
+}
+
 /*********************************** header */
 
 .navbar {
