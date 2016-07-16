@@ -1,6 +1,7 @@
 class Contribution < ActiveRecord::Base
-  belongs_to :user
-  belongs_to :task
+  belongs_to :user, inverse_of: :contributions
+  belongs_to :task, inverse_of: :contributions
 
-  validates :user,:task, presence: true
+  validates :user, presence: true
+  validates :task, presence: true
 end

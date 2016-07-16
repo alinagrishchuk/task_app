@@ -1,0 +1,11 @@
+$("ul.errors").html("")
+
+<% if @task.errors.any? %>
+  <% @task.errors.full_messages.each do |message| %>
+    $("ul.errors").append($("<li />").html("<%= message.html_safe %>"));
+  <% end %>
+<% else %>
+  $("#new_link").show();
+  $(".task-form").remove();
+  $('.tasks').prepend("<%=j render @task %>");
+<% end %>

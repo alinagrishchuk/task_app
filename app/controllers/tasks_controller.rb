@@ -1,5 +1,6 @@
 class TasksController < ApplicationController
   before_action :set_task, only: [:edit, :update, :destroy]
+  before_action :authenticate_user!
 
   respond_to :js
 
@@ -16,6 +17,8 @@ class TasksController < ApplicationController
 
   def create
     @task = Task.new(task_params)
+    @task.users << current_user
+    @task.save
   end
 
   def destroy

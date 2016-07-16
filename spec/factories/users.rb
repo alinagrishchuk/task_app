@@ -12,7 +12,7 @@ FactoryGirl.define do
       end
 
       after(:create) do |user, evaluator|
-        create_list(:contribution, evaluator.tasks_count, user: user)
+        create_list(:task, evaluator.tasks_count, users: [user])
       end
     end
   end
