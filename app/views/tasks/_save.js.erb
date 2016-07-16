@@ -7,6 +7,12 @@ $("ul.errors").html("")
 <% else %>
   $("#new_link").show();
   $(".js-links-block a").removeClass("disabled-link");
+
   $(".task-form").remove();
+  $('<%="#task_#{@task.id}"%>').remove();
   $('.tasks').prepend("<%=j render @task %>");
+  $('html, body').animate(
+      {
+        scrollTop: $('<%="#task_#{@task.id}"%>').offset().top
+      }, 1000);
 <% end %>

@@ -20,13 +20,13 @@ linkTrigger = {
   #show links on page
   show: ->
     $(".js-links-block a").removeClass("disabled-link")
-    $(".js-links-block a").show()
 }
 
 cancelLink = {
   init: ->
     $('.js-cancel').on 'click ', ->
       console.log(".js-cancel click")
+      $($(this).parents(".task-form")).prev().show()
       $($(this).parents(".task-form")).remove()
       linkTrigger.show()
 }

@@ -1,0 +1,4 @@
+$(".js-links-block a").addClass("disabled-link");
+
+$("<%="#task_#{@task.id} .js-task-edit"%>").
+  hide().after("<%= j render ('form') %>");
