@@ -1,5 +1,5 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: [:edit, :update, :destroy]
+  before_action :set_task, only: [:edit, :update, :destroy, :new_share, :create_share]
   before_action :authenticate_user!
 
   respond_to :js
@@ -30,6 +30,11 @@ class TasksController < ApplicationController
     @task.destroy
   end
 
+
+  def create_share
+    @task.users << ( User.find(share_params[:id]))
+  end
+
   private
   def set_task
     @task = Task.find(params[:id])
@@ -37,5 +42,9 @@ class TasksController < ApplicationController
 
   def task_params
     params.require(:task).permit(:title, :description)
+  end
+
+  def share_params
+    params.require(:user).permit(:email, :id)
   end
 end

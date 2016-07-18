@@ -4,9 +4,8 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-
   def self.email_search term
     where('email like ?',"%#{term}%").
-      order("similarity(email, #{ActiveRecord::Base.sanitize(term)}) DESC").limit(10)
+      order("similarity(email, #{ActiveRecord::Base.sanitize(term)}) DESC")
   end
 end

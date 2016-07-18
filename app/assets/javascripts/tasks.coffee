@@ -1,17 +1,18 @@
 console.log("tasks page fire!")
 
-ready = ->
+$(document).on 'page:load ready ajaxSuccess', ->
   linkTrigger.init()
 
-  $('.js-links-block a').on 'ajax:success', ->
-    console.log(".js-links-block a fire!")
-    cancelLink.init()
+$(document).on 'ajax:success', '.js-links-block a', ->
+  console.log("dom a get ajax:success!")
+  cancelLink.init()
+  userSearch.init()
 
-$(document).on('page:load ready', ready)
 
 linkTrigger = {
   # disable link on send
   init: ->
+    console.log("link trigger init")
     $(document).on 'ajax:beforeSend', ->
       $(this).css('pointer-events', 'none')
     $(document).on 'ajax:complete', ->
@@ -24,9 +25,37 @@ linkTrigger = {
 
 cancelLink = {
   init: ->
+    console.log("cancel link init")
     $('.js-cancel').on 'click ', ->
       console.log(".js-cancel click")
-      $($(this).parents(".task-form")).prev().show()
-      $($(this).parents(".task-form")).remove()
+      $($(this).parents(".form-section")).prev().show()
+      $($(this).parents(".form-section")).remove()
       linkTrigger.show()
 }
+
+userSearch = {
+  init: ->
+    console.log("userSearch init")
+    $('#user_email.typeahead').typeahead { highlight: true },
+      {
+        displayKey: 'label'
+        source: (query, syncResults, asyncResults) ->
+          $.get '/users/search?search=' + query, (data) ->
+            asyncResults(data)
+      }
+    
+    $('#user_email').bind 'typeahead:selected', (obj, datum, name)->
+      $("#user_id").val(datum.value)
+      $("#user_email").blur()
+
+    $('#user_email').bind 'typeahead:open',  ->
+      $("#user_email").typeahead('val', '')
+      $("#user_id").val("")
+
+    $('#user_email').bind 'typeahead:close',  ->
+      if $("#user_id").val() == ""
+        $("#user_email").typeahead('val', '')
+
+}
+
+

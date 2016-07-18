@@ -1,8 +1,14 @@
 Rails.application.routes.draw do
   get 'welcome/index'
+  get 'users/search'
 
   devise_for :users
-  resources :tasks,  :except => [:show]
+  resources :tasks,  :except => [:show] do
+    member do
+      get  'share', :action => 'new_share', as: :share
+      post 'share', :action => 'create_share', as: :create_share
+    end
+  end
 
   authenticated :user do
     root 'tasks#index', as: 'authenticated_root'

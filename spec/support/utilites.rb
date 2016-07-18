@@ -7,6 +7,14 @@ def valid_signin(user)
   end
 end
 
+def append_task_list
+  visit root_path
+  click_link 'new_link'
+  fill_in 'Title',          with: 'some title'
+  fill_in 'Description',    with: 'some description'
+  submit_form
+end
+
 
 
 
