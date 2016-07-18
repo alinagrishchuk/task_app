@@ -5,7 +5,7 @@ class TasksController < ApplicationController
   respond_to :js
 
   def index
-    @tasks = Task.all.includes(:users)
+    @tasks = current_user.tasks.includes(:users)
     respond_to do |format|
       format.html {}
     end
@@ -25,19 +25,17 @@ class TasksController < ApplicationController
     @task.update task_params
   end
 
-
   def destroy
     @task.destroy
   end
 
-
   def create_share
-    @task.users << ( User.find(share_params[:id]))
+    @task.users << (User.find(share_params[:id]))
   end
 
   private
   def set_task
-    @task = Task.find(params[:id])
+    @task = current_user.tasks.find(params[:id])
   end
 
   def task_params
