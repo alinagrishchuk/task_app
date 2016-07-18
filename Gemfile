@@ -26,6 +26,9 @@ gem 'devise'
 gem 'pg'
 gem 'faker'
 
+gem 'puma'
+gem 'redis'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
