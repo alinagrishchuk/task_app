@@ -1,6 +1,6 @@
 def submit_form
   find('button[type="submit"]').click
-  sleep 3
+  sleep 4
 end
 
 def click_cancel

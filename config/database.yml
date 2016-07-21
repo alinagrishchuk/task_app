@@ -9,7 +9,7 @@ default: &default
   encoding: unicode
   username: alina
   password:
-  pool: 5
+  pool: 16
 
 development:
   <<: *default

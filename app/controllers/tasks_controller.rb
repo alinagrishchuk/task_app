@@ -1,4 +1,5 @@
 class TasksController < ApplicationController
+  include MessageFactory
   before_action :set_task, only: [:edit, :update, :destroy, :new_share, :create_share]
   before_action :authenticate_user!
 
@@ -18,19 +19,38 @@ class TasksController < ApplicationController
   def create
     @task = Task.new(task_params)
     @task.users << current_user
-    @task.save
+    if @task.save
+      $redis.publish('task.saved', create_message(@task))
+      head 200, content_type: 'text/html'
+    else
+      render partial: 'validation_errors'
+    end
   end
 
   def update
-    @task.update task_params
+    if @task.update(task_params)
+      $redis.publish('task.saved', create_message(@task))
+      head 200, content_type: 'text/html'
+    else
+      render partial: 'validation_errors'
+    end
   end
 
   def destroy
-    @task.destroy
+    message = create_message(@task)
+    if @task.destroy
+      $redis.publish('task.destroyed', message)
+      head 200, content_type: 'text/html'
+    end
   end
 
   def create_share
-    @task.users << (User.find(share_params[:id]))
+    if @task.users << (User.find(share_params[:id]))
+      $redis.publish('task.share', create_message(@task))
+      head 200, content_type: 'text/html'
+    else
+      render partial: 'validation_errors'
+    end
   end
 
   private

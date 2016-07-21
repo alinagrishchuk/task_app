@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   get 'welcome/index'
   get 'users/search'
+  get 'messenger/message'
+
 
   devise_for :users
   resources :tasks,  :except => [:show] do
