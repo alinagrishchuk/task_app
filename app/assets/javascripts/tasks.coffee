@@ -37,7 +37,6 @@ userSearch = {
   init: ->
     console.log("userSearch init")
     task_id = '&task_id=' + $('#user_email').parents(".task").data("id")
-    console.log task_id
     $('#user_email.typeahead').typeahead { highlight: true },
       {
         displayKey: 'label'
