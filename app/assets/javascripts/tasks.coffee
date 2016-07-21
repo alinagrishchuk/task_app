@@ -36,11 +36,14 @@ cancelLink = {
 userSearch = {
   init: ->
     console.log("userSearch init")
+    task_id = '&task_id=' + $('#user_email').parents(".task").data("id")
+    console.log task_id
     $('#user_email.typeahead').typeahead { highlight: true },
       {
         displayKey: 'label'
         source: (query, syncResults, asyncResults) ->
-          $.get '/users/search?search=' + query, (data) ->
+
+          $.get '/users/search?search=' + query + task_id, (data) ->
             asyncResults(data)
       }
     
