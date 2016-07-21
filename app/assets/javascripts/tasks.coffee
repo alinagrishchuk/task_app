@@ -1,13 +1,12 @@
-console.log("tasks page fire!")
-
 $(document).on 'page:load ready ajaxSuccess', ->
   linkTrigger.init()
 
 $(document).on 'ajax:success', '.js-links-block a', ->
-  console.log("dom a get ajax:success!")
   cancelLink.init()
   userSearch.init()
 
+$(document).on 'ready', ->
+  sseClient.init()
 
 linkTrigger = {
   # disable link on send
@@ -41,7 +40,6 @@ userSearch = {
       {
         displayKey: 'label'
         source: (query, syncResults, asyncResults) ->
-
           $.get '/users/search?search=' + query + task_id, (data) ->
             asyncResults(data)
       }
@@ -59,5 +57,29 @@ userSearch = {
         $("#user_email").typeahead('val', '')
 
 }
+
+sseClient = {
+  init: ->
+    source = new EventSource('messenger/message')
+
+    source.addEventListener('open', ->
+      console.log('Opening connection')
+    )
+
+    source.addEventListener('error', ->
+      console.log('Closing connection')
+    )
+
+    source.addEventListener 'tasks.updated', (e) ->
+      message = e.data
+      eval(message)
+
+    source.addEventListener 'heartbeat', (e) ->
+      console.log('heartbeat')
+
+    $(window).bind "unload", ->
+      source.close();
+}
+
 
 

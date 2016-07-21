@@ -15,4 +15,3 @@
 //= require bootstrap-sprockets
 //= require typeahead.jquery.min
 //= require turbolinks
-//= require_tree .
