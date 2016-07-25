@@ -1,15 +1,12 @@
 class TasksController < ApplicationController
-  include MessageFactory
-  before_action :set_task, only: [:edit, :update, :destroy, :new_share, :create_share]
   before_action :authenticate_user!
+  before_action :build_task, only: :create
+  before_action :set_task, only: [:edit, :update, :destroy, :new_share, :create_share]
 
   respond_to :js
 
   def index
     @tasks = current_user.tasks.includes(:users)
-    respond_to do |format|
-      format.html {}
-    end
   end
 
   def new
@@ -17,43 +14,29 @@ class TasksController < ApplicationController
   end
 
   def create
-    @task = Task.new(task_params)
-    @task.users << current_user
-    if @task.save
-      $redis.publish('task.saved', create_message(@task))
-      head 200, content_type: 'text/html'
-    else
-      render partial: 'validation_errors'
-    end
+    create_response(Publisher::TaskPublisher.new(@task).save)
   end
 
   def update
-    if @task.update(task_params)
-      $redis.publish('task.saved', create_message(@task))
-      head 200, content_type: 'text/html'
-    else
-      render partial: 'validation_errors'
-    end
+    create_response(Publisher::TaskPublisher.new(@task).update(task_params))
   end
 
   def destroy
-    message = create_message(@task)
-    if @task.destroy
-      $redis.publish('task.destroyed', message)
-      head 200, content_type: 'text/html'
-    end
+    create_response(Publisher::TaskPublisher.new(@task).destroy, false)
   end
 
   def create_share
-    if @task.users << (User.find(share_params[:id]))
-      $redis.publish('task.share', create_message(@task))
-      head 200, content_type: 'text/html'
-    else
-      render partial: 'validation_errors'
-    end
+    @task.association(:users).add_to_target(User.find(share_params[:id]))
+    create_response(Publisher::TaskPublisher.new(@task).save)
   end
 
   private
+
+  def build_task
+    @task = Task.new(task_params)
+    @task.users << current_user
+  end
+
   def set_task
     @task = current_user.tasks.find(params[:id])
   end
@@ -64,5 +47,13 @@ class TasksController < ApplicationController
 
   def share_params
     params.require(:user).permit(:email, :id)
+  end
+
+  def create_response(successes, show_errors = true )
+    if successes
+      head 200, content_type: 'text/html'
+    elsif show_errors
+      render partial: 'validation_errors'
+    end
   end
 end

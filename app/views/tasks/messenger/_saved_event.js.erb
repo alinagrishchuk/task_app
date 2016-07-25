@@ -1,4 +1,4 @@
-var task_id = '<%="#task_#{@task[:id]}"%>';
+var task_id = '<%="#task_#{task[:id]}"%>';
 
 $("#new_link").show();
 $(".js-links-block a").removeClass("disabled-link");
@@ -8,7 +8,7 @@ $(".form-section").remove();
 $(task_id).remove();
 
 
-$('.tasks').prepend("<%=j render partial: 'tasks/task', :locals => { :task => @task}, formats: [:html] %>");
+$('.tasks').prepend("<%=j render partial: 'tasks/task', :locals => { :task => task}, formats: [:html] %>");
 $('html, body').animate(
     { scrollTop: $(task_id).offset().top }, 1000);
 

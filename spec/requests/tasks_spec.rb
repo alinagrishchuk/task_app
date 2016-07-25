@@ -4,7 +4,6 @@ RSpec.describe 'Tasks page', type: :request do
   subject { page }
 
   let!(:user) { create(:user_with_tasks, tasks_count: 3) }
-  let!(:count) { Task.count }
   let(:first_created_task) { Task.last }
   let(:last_created_task) { Task.first }
 
@@ -19,7 +18,7 @@ RSpec.describe 'Tasks page', type: :request do
     it 'should not create a task and show validations error', :js => true do
       click_link 'new_link'
       should_have_form
-      expect { submit_form }.not_to change(Task, :count)
+      submit_form
       should have_selector("ul.errors>li")
     end
 
@@ -29,7 +28,6 @@ RSpec.describe 'Tasks page', type: :request do
 
       fill_and_submit_task('some title','some description')
 
-      expect(count).not_to eq(Task.count)
       should_not have_selector("#new_task")
       should have_selector("div#task_#{last_created_task.id}")
     end
@@ -52,7 +50,6 @@ RSpec.describe 'Tasks page', type: :request do
         should_have_form
         fill_and_submit_task('','')
 
-        expect(count).to eq(Task.count)
         should have_selector("ul.errors>li")
       end
     end
@@ -64,7 +61,6 @@ RSpec.describe 'Tasks page', type: :request do
 
         fill_and_submit_task('new title','new description')
 
-        expect(count).to eq(Task.count)
       end
 
       should have_selector("#task_#{first_created_task.id}")
@@ -88,7 +84,6 @@ RSpec.describe 'Tasks page', type: :request do
       within "#task_#{first_created_task.id}"  do
         find('.js-delete-task').click
         sleep 3
-        expect(count).not_to eq(Task.count)
       end
       should_not have_selector("#task_#{first_created_task.id}")
     end
@@ -105,7 +100,6 @@ RSpec.describe 'Tasks page', type: :request do
         find('.js-share-task').click
 
         should_have_form
-        expect { submit_form }.not_to change(first_created_task.users, :count)
       end
     end
 
@@ -117,7 +111,6 @@ RSpec.describe 'Tasks page', type: :request do
         init_and_click_typehead_search('user_email', email)
         submit_form
 
-        expect(first_created_task.reload.users.count).not_to(equal(count))
       end
       should have_selector("#task_#{first_created_task.id}")
       should have_content(email)

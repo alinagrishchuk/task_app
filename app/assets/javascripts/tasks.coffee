@@ -73,7 +73,8 @@ sseClient = {
     source.addEventListener 'tasks.updated', (e) ->
       message = e.data
       eval(message)
-
+      console.log(message)
+      
     source.addEventListener 'heartbeat', (e) ->
       console.log('heartbeat')
 

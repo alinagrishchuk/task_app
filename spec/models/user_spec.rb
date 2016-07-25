@@ -14,11 +14,11 @@ RSpec.describe User, type: :model do
     let!(:user_3) { create(:user, email: 'emother_email@example.com') }
 
     it 'should return empty collection' do
-      expect(User.email_search('some_email').count).to eq 0
+      expect(User.email_search_full('some_email').count).to eq 0
     end
 
     it 'should return the filtered & sorted collection' do
-      expect(User.email_search('sample').map(&:email)).to eq  ['sample@example.com','sample2@example.com']
+      expect(User.email_search_full('sample').map(&:email)).to eq  ['sample@example.com','sample2@example.com']
     end
 
   end

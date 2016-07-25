@@ -17,9 +17,9 @@ RSpec.feature  'Sending update', :type => :features do
     it 'should display task' do
       share_user.tasks << first_created_task
 
-      messenger = Class.new.send(:include, MessageFactory).new
+      messenger = Class.new.send(:include, Messenger::MessageFactory).new
       $redis.publish('task.share',
-                     messenger.create_message(first_created_task.reload))
+                     messenger.create_task_message(first_created_task.reload))
       sleep 2
       should have_selector("div#task_#{first_created_task.id}")
     end
@@ -34,9 +34,9 @@ RSpec.feature  'Sending update', :type => :features do
     it 'should not display task' do
       share_user.tasks << first_created_task
 
-      messenger = Class.new.send(:include, MessageFactory).new
+      messenger = Class.new.send(:include, Messenger::MessageFactory).new
       $redis.publish('task.share',
-                     messenger.create_message(first_created_task.reload))
+                     messenger.create_task_message(first_created_task.reload))
       sleep 2
       should_not have_selector("div#task_#{first_created_task.id}")
     end

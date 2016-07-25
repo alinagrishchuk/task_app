@@ -1,17 +1,11 @@
 module Reloader
-  class SSETasks
+  class SSE
     def initialize io
       @io = io
     end
 
-    def write_heartbeat
-      @io.write("event: heartbeat\ndata: heartbeat\n\n")
-    end
-
-    def write_task script
-      message = script.gsub("\n", '')
-      @io.write("event: tasks.updated\n")
-      @io.write("data: #{message}\n\n")
+    def write (event, data)
+      @io.write("event: #{event}\ndata: #{data}\n\n")
     end
 
     def close

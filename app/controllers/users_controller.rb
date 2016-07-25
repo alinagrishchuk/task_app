@@ -3,11 +3,11 @@ class UsersController < ApplicationController
   respond_to :js
 
   def search
-    users = Task.find(params[:task_id]).users.pluck(:id)
+    users = Task.find(params[:task_id]).users.ids
     search = params[:search]
-    render json: User.email_search(search).
-        where.not(id: users).
-        select(:email,:id).limit(10).
-        map{ |user|  { value: user.id, label:  user.email } }
+
+    render json: User.email_search_filtered(search, users, 10).simple
   end
+
+
 end
